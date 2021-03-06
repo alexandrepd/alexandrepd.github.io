@@ -55980,7 +55980,7 @@ X.L9.prototype={
 $0:function(){return K.nj(this.a,!1).cb(0)},
 $S:0}
 F.B4.prototype={
-S:function(a,b){return new S.rx(new F.rM(null),"Flutter Demo",X.a9A(null,C.nf),null)}}
+S:function(a,b){return new S.rx(new F.rM(null),"GitHub Flutter WEB",X.a9A(null,C.nf),null)}}
 F.rM.prototype={
 aE:function(){return new F.H2(C.l)}}
 F.H2.prototype={
