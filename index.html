@@ -468,7 +468,7 @@
         <div class="term-line"><span class="out">Type <span class="k">help</span>, <span class="k">about</span>, <span class="k">skills</span>, <span class="k">experience</span>, <span class="k">contact</span>, <span class="k">social</span>, <span class="k">repos</span>, <span class="k">matrix</span>, <span class="k">clear</span>.</span></div>
         <div class="term-input-line">
           <span class="prompt"><span class="user">guest</span><span class="at">@</span><span class="host">alexandrepd</span><span class="at">:</span><span class="path">~</span>$</span>
-          <input id="term-input" class="term-input" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus />
+          <input id="term-input" class="term-input" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="terminal input" />
         </div>
       </div>
     </div>
@@ -483,7 +483,10 @@
 <div class="konami" id="konami">UNLOCKED</div>
 
 <script>
-/* ====== Matrix Rain ====== */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.addEventListener('load', () => window.scrollTo(0, 0));
+</script>
+<script>
 (() => {
   const c = document.getElementById('matrix');
   const ctx = c.getContext('2d');
