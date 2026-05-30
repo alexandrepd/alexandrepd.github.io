@@ -1,43 +1,713 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Alexandre Alves Silva de Oliveira — Senior Software Engineer. .NET, Blazor, Flutter, React. Portfolio." />
+<meta name="theme-color" content="#00ff66" />
+<title>alexandrepd :: ~/portfolio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000'/%3E%3Ctext x='50%25' y='54%25' font-family='monospace' font-size='38' font-weight='bold' text-anchor='middle' fill='%2300ff66'%3E%26gt;_%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#000;
+    --bg-soft:#050a06;
+    --green:#00ff66;
+    --green-dim:#0a8a3a;
+    --green-deep:#053019;
+    --green-glow:rgba(0,255,102,.55);
+    --amber:#ffb000;
+    --magenta:#ff2bd6;
+    --cyan:#00e0ff;
+    --text:#bff5cf;
+    --text-dim:#5fa57a;
+    --scan:rgba(0,255,102,.04);
+    --grid:rgba(0,255,102,.07);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;}
+  body{
+    min-height:100vh;
+    overflow-x:hidden;
+    background:
+      radial-gradient(ellipse at top, rgba(0,255,102,.08), transparent 60%),
+      radial-gradient(ellipse at bottom, rgba(0,255,102,.05), transparent 70%),
+      var(--bg);
+    cursor:default;
+  }
+  /* CRT scanlines + flicker */
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background:repeating-linear-gradient(to bottom, transparent 0 2px, var(--scan) 2px 3px);
+    pointer-events:none;z-index:9998;mix-blend-mode:overlay;
+  }
+  body::after{
+    content:"";
+    position:fixed;inset:0;
+    background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.65) 100%);
+    pointer-events:none;z-index:9999;
+  }
+  @keyframes flicker{
+    0%,100%{opacity:1}
+    50%{opacity:.97}
+    52%{opacity:.92}
+    54%{opacity:1}
+  }
+  main{animation:flicker 6s infinite}
 
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
+  /* Matrix rain */
+  #matrix{
+    position:fixed;inset:0;z-index:0;
+    width:100%;height:100%;
+    opacity:.55;
+  }
 
-    Fore more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-  -->
-  <base href="/">
+  /* Layout */
+  .wrap{
+    position:relative;z-index:2;
+    max-width:1100px;margin:0 auto;padding:32px 24px 80px;
+  }
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  /* Top bar */
+  .topbar{
+    display:flex;justify-content:space-between;align-items:center;
+    border:1px solid var(--green-dim);
+    background:rgba(0,10,4,.7);
+    padding:8px 14px;border-radius:6px;
+    backdrop-filter: blur(2px);
+    box-shadow:0 0 24px rgba(0,255,102,.08), inset 0 0 30px rgba(0,255,102,.03);
+    font-size:13px;
+  }
+  .topbar .left{color:var(--green);text-shadow:0 0 6px var(--green-glow)}
+  .topbar .right{color:var(--text-dim)}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);margin-right:6px;animation:pulse 1.6s infinite}
+  @keyframes pulse{50%{opacity:.3}}
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="my_app_web">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  /* Hero */
+  .hero{
+    margin-top:28px;
+    border:1px solid var(--green-dim);
+    background:linear-gradient(180deg, rgba(0,15,7,.85), rgba(0,5,2,.85));
+    padding:36px 28px;
+    border-radius:10px;
+    position:relative;overflow:hidden;
+    box-shadow:0 0 40px rgba(0,255,102,.08), inset 0 0 80px rgba(0,255,102,.04);
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size:40px 40px;
+    mask-image:radial-gradient(ellipse at center, #000 30%, transparent 80%);
+    pointer-events:none;
+  }
+  .ascii{
+    color:var(--green);
+    text-shadow:0 0 10px var(--green-glow);
+    font-family:'VT323','JetBrains Mono',monospace;
+    font-size:14px;line-height:14px;
+    white-space:pre;margin:0 0 18px;overflow:hidden;
+  }
+  h1.glitch{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:800;
+    font-size:clamp(28px,5vw,52px);
+    margin:0 0 8px;
+    color:#eaffec;
+    letter-spacing:1px;
+    position:relative;
+    text-shadow:0 0 12px var(--green-glow);
+  }
+  h1.glitch::before, h1.glitch::after{
+    content:attr(data-text);
+    position:absolute;left:0;top:0;width:100%;
+    overflow:hidden;
+  }
+  h1.glitch::before{color:var(--magenta);transform:translate(2px,0);clip-path:polygon(0 0,100% 0,100% 33%,0 33%);animation:glitch1 3.2s infinite linear alternate-reverse;mix-blend-mode:screen}
+  h1.glitch::after{color:var(--cyan);transform:translate(-2px,0);clip-path:polygon(0 66%,100% 66%,100% 100%,0 100%);animation:glitch2 2.6s infinite linear alternate-reverse;mix-blend-mode:screen}
+  @keyframes glitch1{0%{transform:translate(0)}20%{transform:translate(-2px,1px)}40%{transform:translate(2px,-1px)}60%{transform:translate(-1px,2px)}80%{transform:translate(1px,-2px)}100%{transform:translate(0)}}
+  @keyframes glitch2{0%{transform:translate(0)}25%{transform:translate(2px,-1px)}50%{transform:translate(-2px,1px)}75%{transform:translate(1px,2px)}100%{transform:translate(0)}}
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  .tagline{
+    color:var(--green);font-size:16px;margin:0 0 14px;
+    text-shadow:0 0 8px var(--green-glow);
+  }
+  .typed{display:inline-block;border-right:2px solid var(--green);padding-right:4px;animation:caret 1s steps(1) infinite}
+  @keyframes caret{50%{border-color:transparent}}
 
-  <title>my_app_web</title>
-  <link rel="manifest" href="manifest.json">
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .chip{
+    display:inline-flex;align-items:center;gap:6px;
+    border:1px solid var(--green-dim);
+    background:rgba(0,30,12,.6);
+    color:var(--text);padding:4px 10px;border-radius:20px;font-size:12px;
+  }
+  .chip b{color:var(--green)}
+
+  .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    border:1px solid var(--green);
+    color:var(--green);background:transparent;
+    padding:8px 14px;border-radius:4px;text-decoration:none;
+    font-size:13px;font-weight:700;letter-spacing:.5px;
+    transition:all .15s ease;
+    text-shadow:0 0 6px var(--green-glow);
+  }
+  .btn:hover{background:var(--green);color:#000;box-shadow:0 0 24px var(--green-glow);text-shadow:none}
+  .btn.ghost{border-color:var(--green-dim);color:var(--text-dim);text-shadow:none}
+  .btn.ghost:hover{border-color:var(--green);color:#000;background:var(--green);text-shadow:none}
+
+  /* Section */
+  section{
+    margin-top:36px;
+    border:1px solid var(--green-dim);
+    background:rgba(0,8,4,.72);
+    border-radius:10px;
+    padding:22px 22px 26px;
+    backdrop-filter: blur(2px);
+    box-shadow:0 0 30px rgba(0,255,102,.05), inset 0 0 60px rgba(0,255,102,.03);
+  }
+  .section-title{
+    color:var(--green);
+    font-size:13px;letter-spacing:2px;text-transform:uppercase;
+    margin:0 0 16px;display:flex;align-items:center;gap:10px;
+    text-shadow:0 0 8px var(--green-glow);
+  }
+  .section-title::before{content:">_";color:var(--amber);text-shadow:0 0 6px rgba(255,176,0,.6)}
+  .section-title .hash{color:var(--text-dim);font-weight:400;margin-left:auto;font-size:11px}
+
+  p{line-height:1.7;color:var(--text)}
+  a{color:var(--green);text-decoration:none;border-bottom:1px dashed var(--green-dim)}
+  a:hover{color:#fff;border-bottom-color:var(--green);text-shadow:0 0 6px var(--green-glow)}
+
+  /* Stack grid */
+  .stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .stack-card{
+    border:1px solid var(--green-deep);
+    background:rgba(0,15,7,.55);
+    padding:14px;border-radius:6px;
+    transition:border-color .2s, transform .2s, box-shadow .2s;
+  }
+  .stack-card:hover{border-color:var(--green);transform:translateY(-2px);box-shadow:0 0 18px rgba(0,255,102,.15)}
+  .stack-card h3{margin:0 0 8px;color:var(--green);font-size:13px;letter-spacing:1px}
+  .badges{display:flex;flex-wrap:wrap;gap:6px}
+  .badge{
+    font-size:11px;border:1px solid var(--green-deep);
+    background:#020a05;color:var(--text);
+    padding:3px 8px;border-radius:3px;
+    transition:all .15s ease;
+  }
+  .badge:hover{border-color:var(--green);color:var(--green);box-shadow:0 0 10px var(--green-glow)}
+
+  /* Timeline */
+  .timeline{position:relative;padding-left:22px;margin-top:6px}
+  .timeline::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--green),transparent)}
+  .job{position:relative;margin-bottom:18px;padding-left:8px}
+  .job::before{content:"";position:absolute;left:-21px;top:7px;width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green-glow)}
+  .job h3{margin:0;color:#eaffec;font-size:15px}
+  .job .when{color:var(--amber);font-size:12px;letter-spacing:.5px}
+  .job ul{margin:8px 0 0;padding-left:18px;color:var(--text-dim)}
+  .job li{margin:3px 0}
+  .job li::marker{color:var(--green)}
+
+  /* Cert list */
+  .cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px}
+  .cert{
+    border:1px dashed var(--green-deep);
+    padding:8px 10px;border-radius:4px;font-size:12px;color:var(--text);
+    background:rgba(0,10,5,.4);
+  }
+  .cert b{color:var(--green)}
+
+  /* Terminal */
+  .terminal{
+    border:1px solid var(--green-dim);
+    border-radius:8px;overflow:hidden;
+    background:#000;
+    box-shadow:0 0 30px rgba(0,255,102,.12), inset 0 0 40px rgba(0,255,102,.04);
+  }
+  .term-head{
+    display:flex;align-items:center;gap:8px;
+    background:linear-gradient(180deg,#031a0c,#010804);
+    padding:8px 12px;border-bottom:1px solid var(--green-deep);
+    font-size:12px;color:var(--text-dim);
+  }
+  .term-head .b{width:11px;height:11px;border-radius:50%;display:inline-block}
+  .b.r{background:#ff5f56;box-shadow:0 0 6px #ff5f56aa}
+  .b.y{background:#ffbd2e;box-shadow:0 0 6px #ffbd2eaa}
+  .b.g{background:#27c93f;box-shadow:0 0 6px #27c93faa}
+  .term-title{margin-left:8px}
+  .term-body{padding:14px 14px 18px;min-height:230px;font-size:13px;line-height:1.65}
+  .term-line{white-space:pre-wrap;word-break:break-word}
+  .prompt{color:var(--green);text-shadow:0 0 6px var(--green-glow)}
+  .user{color:var(--cyan)}
+  .at{color:var(--text-dim)}
+  .host{color:var(--magenta)}
+  .path{color:var(--amber)}
+  .term-input-line{display:flex;gap:6px;align-items:center;margin-top:6px}
+  .term-input{
+    flex:1;background:transparent;border:0;outline:0;color:var(--text);
+    font-family:inherit;font-size:13px;caret-color:var(--green);
+  }
+  .out{color:var(--text)}
+  .out .k{color:var(--green)}
+  .out .v{color:var(--text)}
+  .err{color:#ff5f56}
+
+  /* Footer */
+  footer{
+    margin-top:40px;text-align:center;color:var(--text-dim);font-size:12px;
+    letter-spacing:1px;
+  }
+  footer .heart{color:var(--magenta)}
+
+  /* Konami flash */
+  .konami{
+    position:fixed;inset:0;background:var(--green);z-index:99999;
+    opacity:0;pointer-events:none;transition:opacity .15s;
+    display:flex;align-items:center;justify-content:center;
+    color:#000;font-family:'VT323',monospace;font-size:80px;
+  }
+  .konami.show{opacity:.92}
+
+  @media (max-width:640px){
+    .ascii{font-size:10px;line-height:10px}
+    .topbar .right{display:none}
+    .hero{padding:24px 18px}
+  }
+</style>
 </head>
 <body>
+<canvas id="matrix"></canvas>
+
+<main class="wrap">
+  <div class="topbar">
+    <div class="left"><span class="dot"></span>connection://alexandrepd@github.io · secure · 256-bit</div>
+    <div class="right"><span id="clock">--:--:--</span> · UTC · uptime <span id="uptime">0s</span></div>
+  </div>
+
+  <section class="hero">
+    <pre class="ascii" aria-hidden="true">  ___  _                            _              ____  ____  
+ / _ \| | _____  ____ _ _ __   __| |_ __ ___    |  _ \|  _ \ 
+| |_| | |/ _ \ \/ / _` | '_ \ / _` | '__/ _ \   | |_) | | | |
+|  _  | |  __/>  < (_| | | | | (_| | | |  __/   |  __/| |_| |
+|_| |_|_|\___/_/\_\__,_|_| |_|\__,_|_|  \___|   |_|   |____/ </pre>
+    <h1 class="glitch" data-text="Alexandre Alves Silva de Oliveira">Alexandre Alves Silva de Oliveira</h1>
+    <div class="tagline">&gt; <span id="typed" class="typed"></span></div>
+    <div class="meta">
+      <span class="chip"><b>role</b> Senior Software Engineer</span>
+      <span class="chip"><b>xp</b> 19+ years</span>
+      <span class="chip"><b>loc</b> Amora, Portugal</span>
+      <span class="chip"><b>status</b> open to collab</span>
+    </div>
+    <div class="cta">
+      <a class="btn" href="https://github.com/alexandrepd" target="_blank" rel="noopener">[ github ]</a>
+      <a class="btn" href="https://www.linkedin.com/in/alexandre-alves-oliveira" target="_blank" rel="noopener">[ linkedin ]</a>
+      <a class="btn" href="mailto:alexandre_pd@hotmail.com">[ email ]</a>
+      <a class="btn ghost" href="https://twitter.com/Alexandre_pd" target="_blank" rel="noopener">[ x / twitter ]</a>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2 class="section-title">whoami <span class="hash">// 0x01</span></h2>
+    <p>Highly skilled and solution-focused IT professional with over <b style="color:var(--green)">19 years of experience</b> across finance, retail and technology. I design and build scalable, maintainable fullstack solutions using <b style="color:var(--green)">.NET (Core, MVC, Web API), Blazor, Razor, React, Flutter</b> and more, with a strong background in <b style="color:var(--green)">Clean Architecture</b>, <b style="color:var(--green)">SOLID</b> and agile methodologies (<b style="color:var(--green)">Scrum</b>, <b style="color:var(--green)">LeSS</b>).</p>
+    <p><span style="color:var(--amber)">soft_skills =</span> [ "leadership", "problem-solving", "mentoring", "team collaboration", "delivering business value through technology" ]</p>
+  </section>
+
+  <section id="stack">
+    <h2 class="section-title">cat stack.json <span class="hash">// 0x02</span></h2>
+    <div class="stack">
+      <div class="stack-card">
+        <h3>// languages</h3>
+        <div class="badges">
+          <span class="badge">C#</span><span class="badge">Dart</span><span class="badge">TypeScript</span>
+          <span class="badge">JavaScript</span><span class="badge">Java</span><span class="badge">Delphi</span>
+          <span class="badge">ABAP</span><span class="badge">PHP</span><span class="badge">Pascal</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h3>// frameworks &amp; web</h3>
+        <div class="badges">
+          <span class="badge">.NET</span><span class="badge">Blazor</span><span class="badge">Razor</span>
+          <span class="badge">ASP.NET MVC</span><span class="badge">Web API</span><span class="badge">React</span>
+          <span class="badge">Flutter</span><span class="badge">Angular</span><span class="badge">Bootstrap</span>
+          <span class="badge">GraphQL</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h3>// databases</h3>
+        <div class="badges">
+          <span class="badge">SQL Server</span><span class="badge">MySQL</span>
+          <span class="badge">MongoDB</span><span class="badge">Firebase</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h3>// cloud &amp; devops</h3>
+        <div class="badges">
+          <span class="badge">Azure</span><span class="badge">AZ-900</span><span class="badge">GCP</span>
+          <span class="badge">AWS</span><span class="badge">Docker</span>
+          <span class="badge">Azure DevOps</span><span class="badge">Git</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h3>// messaging &amp; tools</h3>
+        <div class="badges">
+          <span class="badge">RabbitMQ</span><span class="badge">Postman</span>
+          <span class="badge">Jira</span><span class="badge">Swagger / OpenAPI</span>
+          <span class="badge">SSIS</span><span class="badge">SSRS</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h3>// testing &amp; arch</h3>
+        <div class="badges">
+          <span class="badge">Unit</span><span class="badge">Integration</span>
+          <span class="badge">Widget</span><span class="badge">xUnit</span>
+          <span class="badge">Clean Arch</span><span class="badge">SOLID</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <h2 class="section-title">tail -f experience.log <span class="hash">// 0x03</span></h2>
+    <div class="timeline">
+      <div class="job">
+        <div class="when">Sep/2023 → Present</div>
+        <h3>Senior Software Engineer — GBT Solutions (Pluxee / Sodexo, Lisboa) · Remote</h3>
+        <ul>
+          <li>Led migration of REST API from .NET Framework 4.8 → .NET Core 7.0 with SOLID refactor.</li>
+          <li>Refactored Razor application for performance and scalability.</li>
+          <li>Built Blazor + SQL Server back-office portal (<b style="color:var(--green)">+30%</b> CX productivity).</li>
+          <li>Migrated external PHP portals to React, aligned with group standards.</li>
+        </ul>
+      </div>
+      <div class="job">
+        <div class="when">Mar/2023 → Aug/2023</div>
+        <h3>Senior Software Engineer — HN Services Portugal (Pluxee / Sodexo, Lisboa) · Remote</h3>
+        <ul>
+          <li>Spearheaded .NET 4.8 → .NET Core 7.0 REST API migration with SOLID.</li>
+          <li>Designed and developed Blazor backoffice portal for the CX team.</li>
+        </ul>
+      </div>
+      <div class="job">
+        <div class="when">Nov/2022 → Jan/2023</div>
+        <h3>C# Consultant — Alter Solutions Portugal (Lisboa) · Hybrid</h3>
+        <ul><li>C# consultancy engagement in Lisbon.</li></ul>
+      </div>
+      <div class="job">
+        <div class="when">2020 → 2022</div>
+        <h3>Flutter Developer — Fliper (Fintech, São Paulo)</h3>
+        <ul>
+          <li>Mobile app with Flutter + Clean Architecture.</li>
+          <li>Migrated state management Bloc → Cubit.</li>
+          <li>GraphQL integration; native features via platform channels.</li>
+        </ul>
+      </div>
+      <div class="job">
+        <div class="when">2019 → 2020</div>
+        <h3>Software Engineer — Restoque S/A (São Paulo)</h3>
+        <ul>
+          <li>Flutter retail app with real-time features.</li>
+          <li>.NET Core microservices + SQL Server backend; Azure DevOps CI/CD.</li>
+        </ul>
+      </div>
+      <div class="job">
+        <div class="when">2014 → 2019</div>
+        <h3>Software Engineer — Restoque S/A (São Paulo)</h3>
+        <ul>
+          <li>Razor / C# / .NET MVC web apps. LINX ERP (Visual FoxPro) support.</li>
+          <li>ETL pipelines (SSIS), custom reports (SSRS).</li>
+        </ul>
+      </div>
+      <div class="job">
+        <div class="when">Jul/2010 → Nov/2014</div>
+        <h3>System Analyst — Luxottica (São Paulo)</h3>
+        <ul><li>LINX ERP, B2B integrations (FTP/sFTP), SAP rollout with ABAP modules.</li></ul>
+      </div>
+      <div class="job">
+        <div class="when">2007 → 2010</div>
+        <h3>System Analyst — Focus Têxtil (São Paulo)</h3>
+        <ul><li>ERP (Visual FoxPro) and mini-ERP (C# / WCF) development.</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="certs">
+    <h2 class="section-title">ls certifications/ <span class="hash">// 0x04</span></h2>
+    <div class="cert-grid">
+      <div class="cert"><b>AZ-900</b> · Azure Fundamentals (Microsoft, 2024)</div>
+      <div class="cert"><b>C# Foundational</b> · freeCodeCamp (2024)</div>
+      <div class="cert"><b>ASP.NET Core + API</b> · Microsoft (2024)</div>
+      <div class="cert"><b>SAP ABAP</b> · Certificate</div>
+      <div class="cert"><b>Agile / Scrum</b> · Foundational</div>
+      <div class="cert"><b>.NET Core, MVC, Razor, SOLID</b></div>
+      <div class="cert"><b>ASP.NET Razor &amp; Blazor</b></div>
+      <div class="cert"><b>ASP.NET Web API</b> · REST APIs · JSON</div>
+      <div class="cert"><b>React</b> · Intermediate</div>
+      <div class="cert"><b>Flutter</b></div>
+      <div class="cert"><b>Angular</b> · HTML · CSS · Bootstrap</div>
+      <div class="cert"><b>Object-Oriented Programming</b></div>
+      <div class="cert"><b>Git &amp; GitHub</b></div>
+    </div>
+  </section>
+
+  <section id="terminal-section">
+    <h2 class="section-title">./contact.sh <span class="hash">// 0x05 — interactive</span></h2>
+    <div class="terminal" id="term">
+      <div class="term-head">
+        <span class="b r"></span><span class="b y"></span><span class="b g"></span>
+        <span class="term-title">guest@alexandrepd:~$ — type <b style="color:var(--green)">help</b> to begin</span>
+      </div>
+      <div class="term-body" id="term-body">
+        <div class="term-line"><span class="out">Welcome to <span class="k">alexandrepd</span> portfolio shell <span class="at">v1.0.0</span></span></div>
+        <div class="term-line"><span class="out">Type <span class="k">help</span>, <span class="k">about</span>, <span class="k">skills</span>, <span class="k">experience</span>, <span class="k">contact</span>, <span class="k">social</span>, <span class="k">repos</span>, <span class="k">matrix</span>, <span class="k">clear</span>.</span></div>
+        <div class="term-input-line">
+          <span class="prompt"><span class="user">guest</span><span class="at">@</span><span class="host">alexandrepd</span><span class="at">:</span><span class="path">~</span>$</span>
+          <input id="term-input" class="term-input" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>&gt; EOF · built with <span class="heart">&lt;3</span> &amp; pure HTML/CSS/JS · no frameworks were harmed</div>
+    <div style="margin-top:4px">&copy; <span id="year"></span> Alexandre Alves Silva de Oliveira · <a href="https://github.com/alexandrepd/alexandrepd.github.io" target="_blank" rel="noopener">source</a></div>
+  </footer>
+</main>
+
+<div class="konami" id="konami">UNLOCKED</div>
 
 <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('flutter-first-frame', function () {
-        navigator.serviceWorker.register('flutter_service_worker.js?v=1350414732');
-      });
+/* ====== Matrix Rain ====== */
+(() => {
+  const c = document.getElementById('matrix');
+  const ctx = c.getContext('2d');
+  let w, h, cols, drops, fontSize = 16;
+  const chars = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789:.\"=*+-<>¦|_'.split('');
+  function resize(){
+    w = c.width = window.innerWidth * devicePixelRatio;
+    h = c.height = window.innerHeight * devicePixelRatio;
+    c.style.width = window.innerWidth + 'px';
+    c.style.height = window.innerHeight + 'px';
+    cols = Math.floor(w / (fontSize * devicePixelRatio));
+    drops = Array(cols).fill(0).map(() => Math.random() * -h);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function draw(){
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+    ctx.fillRect(0, 0, w, h);
+    ctx.font = (fontSize * devicePixelRatio) + 'px JetBrains Mono, monospace';
+    for (let i = 0; i < cols; i++){
+      const text = chars[Math.floor(Math.random() * chars.length)];
+      const x = i * fontSize * devicePixelRatio;
+      const y = drops[i];
+      // head
+      ctx.fillStyle = '#d6ffe2';
+      ctx.fillText(text, x, y);
+      // trail
+      ctx.fillStyle = '#00ff66';
+      ctx.fillText(text, x, y - fontSize * devicePixelRatio);
+      drops[i] += fontSize * devicePixelRatio * 0.9;
+      if (drops[i] > h && Math.random() > 0.975) drops[i] = 0;
     }
-  </script>
-  <script src="main.dart.js" type="application/javascript"></script>
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ====== Typewriter tagline ====== */
+(() => {
+  const phrases = [
+    'Senior Software Engineer · .NET · Flutter · React',
+    'Creating algorithms to solve problems.',
+    'Clean Architecture · SOLID · Scrum / LeSS',
+    'Fullstack since 2007 · still curious.',
+    'sudo make coffee && ship it'
+  ];
+  const el = document.getElementById('typed');
+  let pi = 0, ci = 0, deleting = false;
+  function tick(){
+    const p = phrases[pi];
+    if (!deleting){
+      ci++;
+      el.textContent = p.slice(0, ci);
+      if (ci === p.length){ deleting = true; setTimeout(tick, 1800); return; }
+    } else {
+      ci--;
+      el.textContent = p.slice(0, ci);
+      if (ci === 0){ deleting = false; pi = (pi + 1) % phrases.length; }
+    }
+    setTimeout(tick, deleting ? 25 : 55);
+  }
+  tick();
+})();
+
+/* ====== Clock / uptime / year ====== */
+(() => {
+  const start = Date.now();
+  const clk = document.getElementById('clock');
+  const up = document.getElementById('uptime');
+  document.getElementById('year').textContent = new Date().getFullYear();
+  function pad(n){return String(n).padStart(2,'0')}
+  function tick(){
+    const d = new Date();
+    clk.textContent = pad(d.getUTCHours())+':'+pad(d.getUTCMinutes())+':'+pad(d.getUTCSeconds());
+    const s = Math.floor((Date.now()-start)/1000);
+    up.textContent = s < 60 ? s+'s' : Math.floor(s/60)+'m '+(s%60)+'s';
+  }
+  tick(); setInterval(tick, 1000);
+})();
+
+/* ====== Interactive Terminal ====== */
+(() => {
+  const body = document.getElementById('term-body');
+  const input = document.getElementById('term-input');
+  const history = [];
+  let hIndex = -1;
+
+  const commands = {
+    help: () => [
+      'available commands:',
+      '  about        — short bio',
+      '  skills       — tech stack',
+      '  experience   — last few roles',
+      '  education    — academic background',
+      '  languages    — spoken languages',
+      '  contact      — how to reach me',
+      '  social       — github, linkedin, x',
+      '  repos        — pinned repositories',
+      '  whoami       — guest',
+      '  date         — current date/time',
+      '  echo <txt>   — print text',
+      '  matrix       — toggle rain intensity',
+      '  sudo ...     — try it',
+      '  clear        — wipe terminal'
+    ],
+    about: () => [
+      '19+ years across finance, retail and tech.',
+      'fullstack: .NET, Blazor, React, Flutter, Dart, TypeScript.',
+      'into clean architecture, SOLID and shipping value.'
+    ],
+    skills: () => [
+      'languages : C#, Dart, TS, JS, Java, Delphi, ABAP',
+      'web       : .NET / Blazor / Razor / MVC / Web API, React, Flutter, Angular',
+      'db        : SQL Server, MySQL, MongoDB, Firebase',
+      'cloud     : Azure (AZ-900), GCP, AWS, Docker, Azure DevOps',
+      'msg/test  : RabbitMQ, GraphQL, xUnit, Swagger/OpenAPI'
+    ],
+    experience: () => [
+      '2023→now  Senior SWE  · GBT (Pluxee/Sodexo PT)',
+      '2023      Senior SWE  · HN Services PT',
+      '2022      C# Consult. · Alter Solutions PT',
+      '2020-22   Flutter Dev · Fliper (Fintech BR)',
+      '2014-20   SWE         · Restoque S/A (BR)',
+      '2010-14   Sys Analyst · Luxottica (BR)',
+      '2007-10   Sys Analyst · Focus Têxtil (BR)'
+    ],
+    education: () => ['Technologist in IT — Impacta Tecnologia (São Paulo) · 2011-2014'],
+    languages: () => ['português : native', 'english   : B2'],
+    contact: () => [
+      'email    : alexandre_pd@hotmail.com',
+      'linkedin : linkedin.com/in/alexandre-alves-oliveira',
+      'location : Amora, Portugal'
+    ],
+    social: () => [
+      'github   : github.com/alexandrepd',
+      'linkedin : linkedin.com/in/alexandre-alves-oliveira',
+      'x        : twitter.com/Alexandre_pd'
+    ],
+    repos: () => [
+      '★ dart_backend      — Dart REST API w/ shelf',
+      '  ASPNET-CRUD-MVC   — MVC + C# + SQL Server + EF',
+      '★ FlutterSQLite     — persist data w/ SQLite',
+      '  FlutterBloc       — state management example',
+      '  TaskFlow-*        — fullstack side project (frontend/backend)'
+    ],
+    whoami: () => ['guest'],
+    date: () => [new Date().toString()],
+    clear: () => { 
+      [...body.querySelectorAll('.term-line, .echo-line')].forEach(n => n.remove());
+      return null;
+    },
+    matrix: () => {
+      const c = document.getElementById('matrix');
+      c.style.opacity = c.style.opacity === '1' ? '0.55' : '1';
+      return ['matrix intensity = ' + c.style.opacity];
+    },
+    echo: (args) => [args.join(' ')],
+    sudo: () => ['<span class="err">guest is not in the sudoers file. This incident will be reported.</span>'],
+    ls: () => ['about/  skills/  experience/  certs/  contact/'],
+    cat: (args) => {
+      const f = (args[0]||'').toLowerCase();
+      if (commands[f]) return commands[f]([]);
+      return ['<span class="err">cat: ' + (f||'') + ': No such file</span>'];
+    },
+    exit: () => ['nope. you are home now.'],
+  };
+
+  function printLine(html, cls){
+    const div = document.createElement('div');
+    div.className = 'term-line ' + (cls||'');
+    div.innerHTML = html;
+    body.insertBefore(div, body.lastElementChild);
+  }
+
+  function promptHtml(cmd){
+    return '<span class="prompt"><span class="user">guest</span><span class="at">@</span><span class="host">alexandrepd</span><span class="at">:</span><span class="path">~</span>$</span> <span class="out">'+cmd+'</span>';
+  }
+
+  function run(raw){
+    const cmd = raw.trim();
+    if (!cmd){ printLine(promptHtml('')); return; }
+    history.unshift(cmd); hIndex = -1;
+    printLine(promptHtml(escapeHtml(cmd)));
+    const [name, ...args] = cmd.split(/\s+/);
+    const fn = commands[name.toLowerCase()];
+    if (!fn){
+      printLine('<span class="err">command not found: '+escapeHtml(name)+'</span> — try <span class="prompt">help</span>');
+      return;
+    }
+    const out = fn(args);
+    if (out === null) return;
+    out.forEach(l => printLine('<span class="out">'+l+'</span>'));
+  }
+
+  function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter'){ run(input.value); input.value=''; body.scrollTop = body.scrollHeight; }
+    else if (e.key === 'ArrowUp'){ if (hIndex<history.length-1){ hIndex++; input.value = history[hIndex]; } e.preventDefault(); }
+    else if (e.key === 'ArrowDown'){ if (hIndex>0){ hIndex--; input.value = history[hIndex]; } else { hIndex=-1; input.value=''; } e.preventDefault(); }
+    else if (e.key === 'l' && e.ctrlKey){ run('clear'); e.preventDefault(); }
+  });
+
+  document.getElementById('term').addEventListener('click', () => input.focus());
+})();
+
+/* ====== Konami Code ====== */
+(() => {
+  const seq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+  let i = 0;
+  const flash = document.getElementById('konami');
+  window.addEventListener('keydown', e => {
+    if (e.key.toLowerCase() === seq[i].toLowerCase()){
+      i++;
+      if (i === seq.length){
+        flash.classList.add('show');
+        setTimeout(()=>flash.classList.remove('show'), 600);
+        document.body.style.filter = 'hue-rotate(' + (Math.random()*360|0) + 'deg)';
+        i = 0;
+      }
+    } else { i = 0; }
+  });
+})();
+</script>
 </body>
 </html>
