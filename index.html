@@ -3,9 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Alexandre Alves Silva de Oliveira — Senior Software Engineer. .NET, Blazor, Flutter, React. Portfolio." />
+<meta name="description" content="Alexandre Oliveira, Senior Software Engineer in Portugal. .NET/C#, legacy modernization, SQL Server, MySQL, Oracle, React, Blazor and Flutter." />
+<link rel="canonical" href="https://alexandrepd.github.io/" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Alexandre Oliveira | Senior Software Engineer" />
+<meta property="og:description" content=".NET/C#, legacy modernization, web and mobile. Banking, fintech and retail experience, based in Portugal." />
+<meta property="og:url" content="https://alexandrepd.github.io/" />
 <meta name="theme-color" content="#00ff66" />
-<title>alexandrepd :: ~/portfolio</title>
+<title>Alexandre Oliveira | Senior Software Engineer · alexandrepd</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000'/%3E%3Ctext x='50%25' y='54%25' font-family='monospace' font-size='38' font-weight='bold' text-anchor='middle' fill='%2300ff66'%3E%26gt;_%3C/text%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,8 +27,8 @@
     --magenta:#ff2bd6;
     --cyan:#00e0ff;
     --text:#bff5cf;
-    --text-dim:#5fa57a;
-    --scan:rgba(0,255,102,.04);
+    --text-dim:#8ab99b;
+    --scan:rgba(0,255,102,.015);
     --grid:rgba(0,255,102,.07);
   }
   *{box-sizing:border-box}
@@ -37,7 +42,7 @@
       var(--bg);
     cursor:default;
   }
-  /* CRT scanlines + flicker */
+  /* Subtle CRT texture */
   body::before{
     content:"";
     position:fixed;inset:0;
@@ -47,22 +52,15 @@
   body::after{
     content:"";
     position:fixed;inset:0;
-    background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.65) 100%);
+    background:radial-gradient(ellipse at center, transparent 65%, rgba(0,0,0,.18) 100%);
     pointer-events:none;z-index:9999;
   }
-  @keyframes flicker{
-    0%,100%{opacity:1}
-    50%{opacity:.97}
-    52%{opacity:.92}
-    54%{opacity:1}
-  }
-  main{animation:flicker 6s infinite}
-
   /* Matrix rain */
   #matrix{
     position:fixed;inset:0;z-index:0;
     width:100%;height:100%;
-    opacity:.55;
+    opacity:.12;
+    pointer-events:none;
   }
 
   /* Layout */
@@ -83,8 +81,12 @@
   }
   .topbar .left{color:var(--green);text-shadow:0 0 6px var(--green-glow)}
   .topbar .right{color:var(--text-dim)}
-  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);margin-right:6px;animation:pulse 1.6s infinite}
-  @keyframes pulse{50%{opacity:.3}}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);margin-right:6px}
+  .site-nav{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:20px;font-size:13px}
+  button.btn{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--amber);outline-offset:4px}
+  .skip-link{position:absolute;left:24px;top:-80px;z-index:10000;background:var(--bg);padding:12px}
+  .skip-link:focus{top:12px}
 
   /* Hero */
   .hero{
@@ -112,32 +114,26 @@
     font-size:14px;line-height:14px;
     white-space:pre;margin:0 0 18px;overflow:hidden;
   }
-  h1.glitch{
+  .hero-title{
     font-family:'JetBrains Mono',monospace;
     font-weight:800;
-    font-size:clamp(28px,5vw,52px);
+    font-size:clamp(28px,5vw,48px);
     margin:0 0 8px;
     color:#eaffec;
     letter-spacing:1px;
     position:relative;
-    text-shadow:0 0 12px var(--green-glow);
+    text-shadow:0 0 8px rgba(0,255,102,.15);
   }
-  h1.glitch::before, h1.glitch::after{
-    content:attr(data-text);
-    position:absolute;left:0;top:0;width:100%;
-    overflow:hidden;
-  }
-  h1.glitch::before{color:var(--magenta);transform:translate(2px,0);clip-path:polygon(0 0,100% 0,100% 33%,0 33%);animation:glitch1 3.2s infinite linear alternate-reverse;mix-blend-mode:screen}
-  h1.glitch::after{color:var(--cyan);transform:translate(-2px,0);clip-path:polygon(0 66%,100% 66%,100% 100%,0 100%);animation:glitch2 2.6s infinite linear alternate-reverse;mix-blend-mode:screen}
-  @keyframes glitch1{0%{transform:translate(0)}20%{transform:translate(-2px,1px)}40%{transform:translate(2px,-1px)}60%{transform:translate(-1px,2px)}80%{transform:translate(1px,-2px)}100%{transform:translate(0)}}
-  @keyframes glitch2{0%{transform:translate(0)}25%{transform:translate(2px,-1px)}50%{transform:translate(-2px,1px)}75%{transform:translate(1px,2px)}100%{transform:translate(0)}}
 
   .tagline{
     color:var(--green);font-size:16px;margin:0 0 14px;
     text-shadow:0 0 8px var(--green-glow);
   }
-  .typed{display:inline-block;border-right:2px solid var(--green);padding-right:4px;animation:caret 1s steps(1) infinite}
-  @keyframes caret{50%{border-color:transparent}}
+  .hero-summary{max-width:760px;font-size:15px}
+  .highlights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:24px}
+  .highlight{padding:16px;border:1px solid var(--green-deep);border-radius:6px;background:var(--bg-soft)}
+  .highlight strong{display:block;color:var(--green);font-size:22px;margin-bottom:8px}
+  .highlight span{font-size:12px;line-height:1.6}
 
   .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
   .chip{
@@ -181,12 +177,12 @@
   .section-title::before{content:">_";color:var(--amber);text-shadow:0 0 6px rgba(255,176,0,.6)}
   .section-title .hash{color:var(--text-dim);font-weight:400;margin-left:auto;font-size:11px}
 
-  p{line-height:1.7;color:var(--text)}
+  p{line-height:1.7;color:var(--text);overflow-wrap:anywhere}
   a{color:var(--green);text-decoration:none;border-bottom:1px dashed var(--green-dim)}
   a:hover{color:#fff;border-bottom-color:var(--green);text-shadow:0 0 6px var(--green-glow)}
 
   /* Stack grid */
-  .stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:14px}
   .stack-card{
     border:1px solid var(--green-deep);
     background:rgba(0,15,7,.55);
@@ -212,11 +208,15 @@
   .job h3{margin:0;color:#eaffec;font-size:15px}
   .job .when{color:var(--amber);font-size:12px;letter-spacing:.5px}
   .job ul{margin:8px 0 0;padding-left:18px;color:var(--text-dim)}
-  .job li{margin:3px 0}
+  .job li{margin:6px 0;line-height:1.7}
+  .job p{font-size:13px}
   .job li::marker{color:var(--green)}
 
   /* Cert list */
-  .cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px}
+  .cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:8px}
+  details{margin-top:20px}
+  summary{cursor:pointer;color:var(--green);line-height:1.6}
+  details .cert-grid{margin-top:12px}
   .cert{
     border:1px dashed var(--green-deep);
     padding:8px 10px;border-radius:4px;font-size:12px;color:var(--text);
@@ -242,7 +242,7 @@
   .b.y{background:#ffbd2e;box-shadow:0 0 6px #ffbd2eaa}
   .b.g{background:#27c93f;box-shadow:0 0 6px #27c93faa}
   .term-title{margin-left:8px}
-  .term-body{padding:14px 14px 18px;min-height:230px;font-size:13px;line-height:1.65}
+  .term-body{padding:14px 14px 18px;min-height:230px;max-height:420px;overflow-y:auto;font-size:13px;line-height:1.65}
   .term-line{white-space:pre-wrap;word-break:break-word}
   .prompt{color:var(--green);text-shadow:0 0 6px var(--green-glow)}
   .user{color:var(--cyan)}
@@ -251,7 +251,7 @@
   .path{color:var(--amber)}
   .term-input-line{display:flex;gap:6px;align-items:center;margin-top:6px}
   .term-input{
-    flex:1;background:transparent;border:0;outline:0;color:var(--text);
+    flex:1;min-width:0;background:transparent;border:0;color:var(--text);
     font-family:inherit;font-size:13px;caret-color:var(--green);
   }
   .out{color:var(--text)}
@@ -266,30 +266,44 @@
   }
   footer .heart{color:var(--magenta)}
 
-  /* Konami flash */
-  .konami{
-    position:fixed;inset:0;background:var(--green);z-index:99999;
-    opacity:0;pointer-events:none;transition:opacity .15s;
-    display:flex;align-items:center;justify-content:center;
-    color:#000;font-family:'VT323',monospace;font-size:80px;
-  }
-  .konami.show{opacity:.92}
-
   @media (max-width:640px){
-    .ascii{font-size:10px;line-height:10px}
+    .wrap{padding:20px 16px 48px}
+    .ascii{font-size:8px;line-height:9px}
     .topbar .right{display:none}
+    .topbar{font-size:11px;overflow-wrap:anywhere}
     .hero{padding:24px 18px}
+    section{padding:20px 16px}
+    .highlights{grid-template-columns:1fr}
+    .section-title{flex-wrap:wrap;letter-spacing:1px;overflow-wrap:anywhere}
+    .section-title .hash{margin-left:0}
+    .term-title{overflow-wrap:anywhere}
+    .term-input-line{flex-wrap:wrap}
+    .term-input{flex-basis:100%;font-size:16px}
+    .hero-summary,footer{overflow-wrap:anywhere}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    #matrix{display:none}
   }
 </style>
 </head>
 <body>
-<canvas id="matrix"></canvas>
+<a class="skip-link" href="#about">Skip to content</a>
+<canvas id="matrix" aria-hidden="true"></canvas>
 
 <main class="wrap">
   <div class="topbar">
-    <div class="left"><span class="dot"></span>connection://alexandrepd@github.io · secure · 256-bit</div>
+    <div class="left"><span class="dot"></span>alexandrepd@portfolio:~ · Portugal</div>
     <div class="right"><span id="clock">--:--:--</span> · UTC · uptime <span id="uptime">0s</span></div>
   </div>
+  <nav class="site-nav" aria-label="Main navigation">
+    <a href="#about">~/about</a>
+    <a href="#stack">~/stack</a>
+    <a href="#experience">~/experience</a>
+    <a href="#certs">~/credentials</a>
+    <a href="#terminal-section">~/contact</a>
+    <button class="btn ghost" id="effects-toggle" type="button" aria-pressed="false" hidden>Matrix: off</button>
+  </nav>
 
   <section class="hero">
     <pre class="ascii" aria-hidden="true">  ___  _                            _              ____  ____  
@@ -297,26 +311,33 @@
 | |_| | |/ _ \ \/ / _` | '_ \ / _` | '__/ _ \   | |_) | | | |
 |  _  | |  __/>  < (_| | | | | (_| | | |  __/   |  __/| |_| |
 |_| |_|_|\___/_/\_\__,_|_| |_|\__,_|_|  \___|   |_|   |____/ </pre>
-    <h1 class="glitch" data-text="Alexandre Alves Silva de Oliveira">Alexandre Alves Silva de Oliveira</h1>
-    <div class="tagline">&gt; <span id="typed" class="typed"></span></div>
+    <h1 class="hero-title">Alexandre Oliveira</h1>
+    <p class="tagline">&gt; Senior Software Engineer · .NET / C# · Full-Stack</p>
+    <p class="hero-summary">I modernize existing systems and build web and mobile applications. My work spans banking transactions, customer service portals, investment apps and retail operations.</p>
     <div class="meta">
       <span class="chip"><b>role</b> Senior Software Engineer</span>
-      <span class="chip"><b>xp</b> 19+ years</span>
+      <span class="chip"><b>xp</b> 20+ years in software &amp; technical support</span>
       <span class="chip"><b>loc</b> Amora, Portugal</span>
-      <span class="chip"><b>status</b> open to collab</span>
+      <span class="chip"><b>focus</b> legacy modernization</span>
     </div>
     <div class="cta">
       <a class="btn" href="https://github.com/alexandrepd" target="_blank" rel="noopener">[ github ]</a>
       <a class="btn" href="https://www.linkedin.com/in/alexandre-alves-oliveira" target="_blank" rel="noopener">[ linkedin ]</a>
       <a class="btn" href="mailto:alexandre_pd@hotmail.com">[ email ]</a>
-      <a class="btn ghost" href="https://twitter.com/Alexandre_pd" target="_blank" rel="noopener">[ x / twitter ]</a>
+      <a class="btn ghost" href="https://eurekagenius.com/" target="_blank" rel="noopener noreferrer">[ consulting / Eureka Genius ]</a>
+    </div>
+    <div class="highlights" aria-label="Selected experience">
+      <div class="highlight"><strong>1,050</strong><span>banking transactions converted to .NET 8 in the BPI modernization program</span></div>
+      <div class="highlight"><strong>Web &amp; APIs</strong><span>.NET migration, Blazor back-office and React portals at Pluxee</span></div>
+      <div class="highlight"><strong>Flutter</strong><span>investment management at Fliper and retail applications at Restoque</span></div>
     </div>
   </section>
 
   <section id="about">
     <h2 class="section-title">whoami <span class="hash">// 0x01</span></h2>
-    <p>Highly skilled and solution-focused IT professional with over <b style="color:var(--green)">19 years of experience</b> across finance, retail and technology. I design and build scalable, maintainable fullstack solutions using <b style="color:var(--green)">.NET (Core, MVC, Web API), Blazor, Razor, React, Flutter</b> and more, with a strong background in <b style="color:var(--green)">Clean Architecture</b>, <b style="color:var(--green)">SOLID</b> and agile methodologies (<b style="color:var(--green)">Scrum</b>, <b style="color:var(--green)">LeSS</b>).</p>
-    <p><span style="color:var(--amber)">soft_skills =</span> [ "leadership", "problem-solving", "mentoring", "team collaboration", "delivering business value through technology" ]</p>
+    <p>I'm Alexandre Alves Silva de Oliveira, a software engineer based in Amora, Portugal. My background spans more than 20 years in software development and technical support, from Borland tools and retail ERP systems to .NET services and Flutter applications.</p>
+    <p>I combine architecture with implementation: understanding business rules, writing and reviewing code, testing integrations and supporting the transition to production. I've worked with the legacy systems I help replace, including VB6, Visual FoxPro, Classic ASP and .NET Framework.</p>
+    <p><span style="color:var(--amber)">working_style =</span> [ "hands-on engineering", "code review", "mentoring", "business context" ]</p>
   </section>
 
   <section id="stack">
@@ -327,23 +348,30 @@
         <div class="badges">
           <span class="badge">C#</span><span class="badge">Dart</span><span class="badge">TypeScript</span>
           <span class="badge">JavaScript</span><span class="badge">Java</span><span class="badge">Delphi</span>
-          <span class="badge">ABAP</span><span class="badge">PHP</span><span class="badge">Pascal</span>
+          <span class="badge">ABAP</span><span class="badge">PHP</span><span class="badge">Pascal</span><span class="badge">Python</span>
         </div>
       </div>
       <div class="stack-card">
         <h3>// frameworks &amp; web</h3>
         <div class="badges">
-          <span class="badge">.NET</span><span class="badge">Blazor</span><span class="badge">Razor</span>
+          <span class="badge">.NET 8</span><span class="badge">.NET Framework</span><span class="badge">Blazor</span><span class="badge">Razor</span>
           <span class="badge">ASP.NET MVC</span><span class="badge">Web API</span><span class="badge">React</span>
           <span class="badge">Flutter</span><span class="badge">Angular</span><span class="badge">Bootstrap</span>
-          <span class="badge">GraphQL</span>
+          <span class="badge">Vite</span><span class="badge">React Native</span><span class="badge">Laravel</span>
+          <span class="badge">HTML</span><span class="badge">CSS</span>
         </div>
       </div>
       <div class="stack-card">
-        <h3>// databases</h3>
+        <h3>// relational databases</h3>
         <div class="badges">
           <span class="badge">SQL Server</span><span class="badge">MySQL</span>
-          <span class="badge">MongoDB</span><span class="badge">Firebase</span>
+          <span class="badge">Oracle</span><span class="badge">InterBase</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h3>// nosql &amp; real-time</h3>
+        <div class="badges">
+          <span class="badge">MongoDB</span><span class="badge">Firebase</span><span class="badge">Firestore</span>
         </div>
       </div>
       <div class="stack-card">
@@ -352,6 +380,7 @@
           <span class="badge">Azure</span><span class="badge">AZ-900</span><span class="badge">GCP</span>
           <span class="badge">AWS</span><span class="badge">Docker</span>
           <span class="badge">Azure DevOps</span><span class="badge">Git</span>
+          <span class="badge">Jenkins</span><span class="badge">CI/CD</span>
         </div>
       </div>
       <div class="stack-card">
@@ -360,8 +389,19 @@
           <span class="badge">RabbitMQ</span><span class="badge">Postman</span>
           <span class="badge">Jira</span><span class="badge">Swagger / OpenAPI</span>
           <span class="badge">SSIS</span><span class="badge">SSRS</span>
+          <span class="badge">GraphQL</span><span class="badge">GitHub Copilot</span>
+          <span class="badge">Visual Studio</span><span class="badge">VS Code</span>
+        </div>
+        <div class="stack-card">
+          <h3>// legacy &amp; enterprise</h3>
+          <div class="badges">
+            <span class="badge">VB6 / MCF</span><span class="badge">Visual FoxPro</span>
+            <span class="badge">Classic ASP</span><span class="badge">LINX ERP</span>
+            <span class="badge">WCF</span><span class="badge">SAP ABAP</span>
+          </div>
         </div>
       </div>
+      <p>Core focus: .NET/C#, SQL Server, web and mobile delivery. Additional experience includes legacy platforms, Oracle, MySQL and InterBase; AWS and Google Cloud are complementary cloud exposure.</p>
       <div class="stack-card">
         <h3>// testing &amp; arch</h3>
         <div class="badges">
@@ -377,21 +417,26 @@
     <h2 class="section-title">tail -f experience.log <span class="hash">// 0x03</span></h2>
     <div class="timeline">
       <div class="job">
-        <div class="when">Sep/2023 → Present</div>
-        <h3>Senior Software Engineer — GBT Solutions (Pluxee / Sodexo, Lisboa) · Remote</h3>
+        <div class="when">Jun/2025 → Present</div>
+        <h3>Senior Software Engineer — BPI Bank, via Capgemini Portugal</h3>
+        <p>GBT Solutions · FAST.MCF modernization program</p>
         <ul>
-          <li>Led migration of REST API from .NET Framework 4.8 → .NET Core 7.0 with SOLID refactor.</li>
-          <li>Refactored Razor application for performance and scalability.</li>
-          <li>Built Blazor + SQL Server back-office portal (<b style="color:var(--green)">+30%</b> CX productivity).</li>
-          <li>Migrated external PHP portals to React, aligned with group standards.</li>
+          <li>Led architecture and migration strategy for a program with <strong>1,050 banking transactions converted from MCF/VB6 to .NET 8</strong>.</li>
+          <li>Designed side-by-side execution and result comparison to verify functional equivalence.</li>
+          <li>Extended the HTTP adapter with feature toggles and controlled routing for progressive rollouts.</li>
+          <li>Implemented automated tests, certification workflows and transaction comparison processes.</li>
+          <li>Used GitHub Copilot to assist with legacy code analysis, migration and refactoring.</li>
         </ul>
       </div>
       <div class="job">
-        <div class="when">Mar/2023 → Aug/2023</div>
-        <h3>Senior Software Engineer — HN Services Portugal (Pluxee / Sodexo, Lisboa) · Remote</h3>
+        <div class="when">Mar/2023 → May/2025</div>
+        <h3>Senior Software Engineer — Pluxee / Sodexo Portugal</h3>
+        <p>HN Services, Mar–Aug 2023 · GBT Solutions, Sep 2023–May 2025</p>
         <ul>
-          <li>Spearheaded .NET 4.8 → .NET Core 7.0 REST API migration with SOLID.</li>
-          <li>Designed and developed Blazor backoffice portal for the CX team.</li>
+          <li>Led REST API migration from .NET Framework 4.8 to .NET 7.</li>
+          <li>Built a Blazor and SQL Server back-office portal for the Customer Experience team.</li>
+          <li>Refactored Razor applications and developed SQL Server and MySQL queries, procedures and reports.</li>
+          <li>Modernized PHP portals with React and Vite and supported existing production applications.</li>
         </ul>
       </div>
       <div class="job">
@@ -400,32 +445,28 @@
         <ul><li>C# consultancy engagement in Lisbon.</li></ul>
       </div>
       <div class="job">
-        <div class="when">2020 → 2022</div>
+        <div class="when">Dec/2020 → May/2022</div>
         <h3>Flutter Developer — Fliper (Fintech, São Paulo)</h3>
         <ul>
           <li>Mobile app with Flutter + Clean Architecture.</li>
           <li>Migrated state management Bloc → Cubit.</li>
           <li>GraphQL integration; native features via platform channels.</li>
+          <li>Unit, widget and integration tests.</li>
         </ul>
       </div>
       <div class="job">
-        <div class="when">2019 → 2020</div>
+        <div class="when">Nov/2014 → Nov/2020</div>
         <h3>Software Engineer — Restoque S/A (São Paulo)</h3>
         <ul>
           <li>Flutter retail app with real-time features.</li>
           <li>.NET Core microservices + SQL Server backend; Azure DevOps CI/CD.</li>
-        </ul>
-      </div>
-      <div class="job">
-        <div class="when">2014 → 2019</div>
-        <h3>Software Engineer — Restoque S/A (São Paulo)</h3>
-        <ul>
           <li>Razor / C# / .NET MVC web apps. LINX ERP (Visual FoxPro) support.</li>
+          <li>Firestore, push notifications, RabbitMQ and WCF services.</li>
           <li>ETL pipelines (SSIS), custom reports (SSRS).</li>
         </ul>
       </div>
       <div class="job">
-        <div class="when">Jul/2010 → Nov/2014</div>
+        <div class="when">2010 → 2014</div>
         <h3>System Analyst — Luxottica (São Paulo)</h3>
         <ul><li>LINX ERP, B2B integrations (FTP/sFTP), SAP rollout with ABAP modules.</li></ul>
       </div>
@@ -435,15 +476,26 @@
         <ul><li>ERP (Visual FoxPro) and mini-ERP (C# / WCF) development.</li></ul>
       </div>
     </div>
+    <details>
+      <summary>Earlier career · Goldsoft &amp; Borland</summary>
+      <p><strong>Goldsoft · Programmer · 2006–2007:</strong> logistics software with Delphi, IntraWeb and Oracle 9i; reporting with Rave and Crystal Reports.</p>
+      <p><strong>Borland · Technical Support · 2004–2006:</strong> level-two support across Latin America for Delphi, InterBase and enterprise products.</p>
+    </details>
   </section>
 
   <section id="certs">
-    <h2 class="section-title">ls certifications/ <span class="hash">// 0x04</span></h2>
+    <h2 class="section-title">ls credentials/ <span class="hash">// 0x04</span></h2>
+    <p><strong>Technology degree in Information Technology</strong> · Impacta Tecnologia, São Paulo · 2011–2014</p>
+    <p>Portuguese: native · English: B2</p>
     <div class="cert-grid">
       <div class="cert"><b>AZ-900</b> · Azure Fundamentals (Microsoft, 2024)</div>
       <div class="cert"><b>C# Foundational</b> · freeCodeCamp (2024)</div>
+      <div class="cert"><b>SAP ABAP</b> · SAP (2013)</div>
+    </div>
+    <details>
+      <summary>Further courses &amp; training</summary>
+      <div class="cert-grid">
       <div class="cert"><b>ASP.NET Core + API</b> · Microsoft (2024)</div>
-      <div class="cert"><b>SAP ABAP</b> · Certificate</div>
       <div class="cert"><b>Agile / Scrum</b> · Foundational</div>
       <div class="cert"><b>.NET Core, MVC, Razor, SOLID</b></div>
       <div class="cert"><b>ASP.NET Razor &amp; Blazor</b></div>
@@ -453,11 +505,16 @@
       <div class="cert"><b>Angular</b> · HTML · CSS · Bootstrap</div>
       <div class="cert"><b>Object-Oriented Programming</b></div>
       <div class="cert"><b>Git &amp; GitHub</b></div>
-    </div>
+      </div>
+    </details>
+    <p><strong>OneSight · Mexico · May 2014:</strong> volunteer support for vision screening services in underserved communities.</p>
   </section>
 
   <section id="terminal-section">
     <h2 class="section-title">./contact.sh <span class="hash">// 0x05 — interactive</span></h2>
+    <p>For engineering roles and collaboration: <a href="mailto:alexandre_pd@hotmail.com">alexandre_pd@hotmail.com</a> or <a href="https://www.linkedin.com/in/alexandre-alves-oliveira/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
+    <p>For consulting projects: <a href="https://eurekagenius.com/" target="_blank" rel="noopener noreferrer">Eureka Genius</a> · <a href="mailto:alexandre.oliveira@eurekagenius.com">alexandre.oliveira@eurekagenius.com</a>.</p>
+    <p>The terminal below is an optional way to explore this portfolio. Type <code>help</code> for commands.</p>
     <div class="terminal" id="term">
       <div class="term-head">
         <span class="b r"></span><span class="b y"></span><span class="b g"></span>
@@ -480,16 +537,16 @@
   </footer>
 </main>
 
-<div class="konami" id="konami">UNLOCKED</div>
-
-<script>
-if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-window.addEventListener('load', () => window.scrollTo(0, 0));
-</script>
 <script>
 (() => {
   const c = document.getElementById('matrix');
   const ctx = c.getContext('2d');
+  const toggle = document.getElementById('effects-toggle');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let enabled = !reducedMotion.matches;
+  let frame = null;
+  let lastFrame = 0;
+  toggle.hidden = false;
   let w, h, cols, drops, fontSize = 16;
   const chars = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789:.\"=*+-<>¦|_'.split('');
   function resize(){
@@ -504,6 +561,10 @@ window.addEventListener('load', () => window.scrollTo(0, 0));
   window.addEventListener('resize', resize);
 
   function draw(){
+    if (!enabled || document.hidden) { frame = null; return; }
+    frame = requestAnimationFrame(draw);
+    if (performance.now() - lastFrame < 65) return;
+    lastFrame = performance.now();
     ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
     ctx.fillRect(0, 0, w, h);
     ctx.font = (fontSize * devicePixelRatio) + 'px JetBrains Mono, monospace';
@@ -517,39 +578,23 @@ window.addEventListener('load', () => window.scrollTo(0, 0));
       // trail
       ctx.fillStyle = '#00ff66';
       ctx.fillText(text, x, y - fontSize * devicePixelRatio);
-      drops[i] += fontSize * devicePixelRatio * 0.9;
+      drops[i] += fontSize * devicePixelRatio * 0.5;
       if (drops[i] > h && Math.random() > 0.975) drops[i] = 0;
     }
-    requestAnimationFrame(draw);
   }
-  draw();
-})();
-
-/* ====== Typewriter tagline ====== */
-(() => {
-  const phrases = [
-    'Senior Software Engineer · .NET · Flutter · React',
-    'Creating algorithms to solve problems.',
-    'Clean Architecture · SOLID · Scrum / LeSS',
-    'Fullstack since 2007 · still curious.',
-    'sudo make coffee && ship it'
-  ];
-  const el = document.getElementById('typed');
-  let pi = 0, ci = 0, deleting = false;
-  function tick(){
-    const p = phrases[pi];
-    if (!deleting){
-      ci++;
-      el.textContent = p.slice(0, ci);
-      if (ci === p.length){ deleting = true; setTimeout(tick, 1800); return; }
-    } else {
-      ci--;
-      el.textContent = p.slice(0, ci);
-      if (ci === 0){ deleting = false; pi = (pi + 1) % phrases.length; }
-    }
-    setTimeout(tick, deleting ? 25 : 55);
+  function updateEffects(){
+    if (frame !== null) cancelAnimationFrame(frame);
+    frame = null;
+    c.hidden = !enabled;
+    toggle.disabled = reducedMotion.matches;
+    toggle.setAttribute('aria-pressed', String(enabled));
+    toggle.textContent = reducedMotion.matches ? 'Matrix: off (reduced motion)' : 'Matrix: ' + (enabled ? 'on' : 'off');
+    if (enabled && !document.hidden) draw();
   }
-  tick();
+  toggle.addEventListener('click', () => { enabled = !enabled; updateEffects(); });
+  reducedMotion.addEventListener('change', () => { enabled = !reducedMotion.matches; updateEffects(); });
+  document.addEventListener('visibilitychange', updateEffects);
+  updateEffects();
 })();
 
 /* ====== Clock / uptime / year ====== */
@@ -584,54 +629,58 @@ window.addEventListener('load', () => window.scrollTo(0, 0));
       '  education    — academic background',
       '  languages    — spoken languages',
       '  contact      — how to reach me',
-      '  social       — github, linkedin, x',
-      '  repos        — pinned repositories',
+      '  social       — github, linkedin, consulting',
+      '  repos        — repository links',
       '  whoami       — guest',
       '  date         — current date/time',
       '  echo <txt>   — print text',
-      '  matrix       — toggle rain intensity',
+      '  matrix       — toggle subtle background animation',
       '  sudo ...     — try it',
       '  clear        — wipe terminal'
     ],
     about: () => [
-      '19+ years across finance, retail and tech.',
+      '20+ years in software development and technical support.',
       'fullstack: .NET, Blazor, React, Flutter, Dart, TypeScript.',
-      'into clean architecture, SOLID and shipping value.'
+      'Banking, fintech and retail. Based in Amora, Portugal.'
     ],
     skills: () => [
-      'languages : C#, Dart, TS, JS, Java, Delphi, ABAP',
-      'web       : .NET / Blazor / Razor / MVC / Web API, React, Flutter, Angular',
-      'db        : SQL Server, MySQL, MongoDB, Firebase',
-      'cloud     : Azure (AZ-900), GCP, AWS, Docker, Azure DevOps',
-      'msg/test  : RabbitMQ, GraphQL, xUnit, Swagger/OpenAPI'
+      'languages : C#, Dart, TS, JS, Java, Delphi, ABAP, PHP, Python, Pascal',
+      'web       : .NET 8 / Framework, Blazor, Razor, MVC, Web API, React, Flutter, Angular, Vite, React Native, Laravel',
+      'relational: SQL Server, MySQL, Oracle, InterBase',
+      'nosql     : MongoDB, Firebase, Firestore',
+      'delivery  : Azure (AZ-900), Docker, Azure DevOps, Git, Jenkins; GCP/AWS exposure',
+      'msg/test  : RabbitMQ, GraphQL, SSIS, SSRS, xUnit, Swagger/OpenAPI',
+      'legacy    : VB6/MCF, Visual FoxPro, Classic ASP, LINX ERP, WCF, SAP ABAP'
     ],
     experience: () => [
-      '2023→now  Senior SWE  · GBT (Pluxee/Sodexo PT)',
-      '2023      Senior SWE  · HN Services PT',
-      '2022      C# Consult. · Alter Solutions PT',
+      '2025→now  Senior SWE  · BPI via Capgemini Portugal / GBT Solutions',
+      '          1,050 MCF/VB6 banking transactions converted to .NET 8',
+      '2023-25   Senior SWE  · Pluxee (HN Services, then GBT Solutions)',
+      '2022-23   C# Consult. · Alter Solutions PT',
       '2020-22   Flutter Dev · Fliper (Fintech BR)',
       '2014-20   SWE         · Restoque S/A (BR)',
       '2010-14   Sys Analyst · Luxottica (BR)',
-      '2007-10   Sys Analyst · Focus Têxtil (BR)'
+      '2007-10   Sys Analyst · Focus Têxtil (BR)',
+      '2006-07   Programmer  · Goldsoft (BR)',
+      '2004-06   Tech Support · Borland (BR)'
     ],
     education: () => ['Technologist in IT — Impacta Tecnologia (São Paulo) · 2011-2014'],
     languages: () => ['português : native', 'english   : B2'],
     contact: () => [
       'email    : alexandre_pd@hotmail.com',
+      'business : alexandre.oliveira@eurekagenius.com',
       'linkedin : linkedin.com/in/alexandre-alves-oliveira',
       'location : Amora, Portugal'
     ],
     social: () => [
       'github   : github.com/alexandrepd',
       'linkedin : linkedin.com/in/alexandre-alves-oliveira',
-      'x        : twitter.com/Alexandre_pd'
+      'business : https://eurekagenius.com/'
     ],
     repos: () => [
-      '★ dart_backend      — Dart REST API w/ shelf',
-      '  ASPNET-CRUD-MVC   — MVC + C# + SQL Server + EF',
-      '★ FlutterSQLite     — persist data w/ SQLite',
-      '  FlutterBloc       — state management example',
-      '  TaskFlow-*        — fullstack side project (frontend/backend)'
+      'Repositories: https://github.com/alexandrepd?tab=repositories',
+      'Profile and activity: https://github.com/alexandrepd',
+      'Professional experience: see the timeline above.'
     ],
     whoami: () => ['guest'],
     date: () => [new Date().toString()],
@@ -640,17 +689,18 @@ window.addEventListener('load', () => window.scrollTo(0, 0));
       return null;
     },
     matrix: () => {
-      const c = document.getElementById('matrix');
-      c.style.opacity = c.style.opacity === '1' ? '0.55' : '1';
-      return ['matrix intensity = ' + c.style.opacity];
+      const toggle = document.getElementById('effects-toggle');
+      if (toggle.disabled) return ['Matrix is off to respect your reduced-motion preference.'];
+      toggle.click();
+      return [toggle.textContent];
     },
     echo: (args) => [args.join(' ')],
-    sudo: () => ['<span class="err">guest is not in the sudoers file. This incident will be reported.</span>'],
+    sudo: () => ['guest is not in the sudoers file. This is a portfolio, not a real shell.'],
     ls: () => ['about/  skills/  experience/  certs/  contact/'],
     cat: (args) => {
       const f = (args[0]||'').toLowerCase();
-      if (commands[f]) return commands[f]([]);
-      return ['<span class="err">cat: ' + (f||'') + ': No such file</span>'];
+      if (Object.hasOwn(commands, f)) return commands[f]([]);
+      return ['cat: ' + f + ': No such file'];
     },
     exit: () => ['nope. you are home now.'],
   };
@@ -672,14 +722,14 @@ window.addEventListener('load', () => window.scrollTo(0, 0));
     history.unshift(cmd); hIndex = -1;
     printLine(promptHtml(escapeHtml(cmd)));
     const [name, ...args] = cmd.split(/\s+/);
-    const fn = commands[name.toLowerCase()];
+    const fn = Object.hasOwn(commands, name.toLowerCase()) ? commands[name.toLowerCase()] : null;
     if (!fn){
       printLine('<span class="err">command not found: '+escapeHtml(name)+'</span> — try <span class="prompt">help</span>');
       return;
     }
     const out = fn(args);
     if (out === null) return;
-    out.forEach(l => printLine('<span class="out">'+l+'</span>'));
+    out.forEach(l => printLine('<span class="out">'+escapeHtml(l)+'</span>'));
   }
 
   function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
@@ -691,24 +741,8 @@ window.addEventListener('load', () => window.scrollTo(0, 0));
     else if (e.key === 'l' && e.ctrlKey){ run('clear'); e.preventDefault(); }
   });
 
-  document.getElementById('term').addEventListener('click', () => input.focus());
-})();
-
-/* ====== Konami Code ====== */
-(() => {
-  const seq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-  let i = 0;
-  const flash = document.getElementById('konami');
-  window.addEventListener('keydown', e => {
-    if (e.key.toLowerCase() === seq[i].toLowerCase()){
-      i++;
-      if (i === seq.length){
-        flash.classList.add('show');
-        setTimeout(()=>flash.classList.remove('show'), 600);
-        document.body.style.filter = 'hue-rotate(' + (Math.random()*360|0) + 'deg)';
-        i = 0;
-      }
-    } else { i = 0; }
+  document.getElementById('term').addEventListener('click', () => {
+    if (!window.getSelection().toString()) input.focus({ preventScroll: true });
   });
 })();
 </script>
